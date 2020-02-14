@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html >
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>你好啊</h1>
+<table>
+    <thead>
+<tr>
+    <th>id</th>
+    <th>name</th>
+    <th>remark</th>
+    <th>createdTime</th>
+</tr>
+    </thead >
+    <tbody id="tbodyId">
+    <tr>
+        <td colspan="5">
+            data loading...
+        </td>
+    </tr>
+
+    </tbody>
+</table>
+<script type="text/javascript">
+     //DOM事件
+    function doGetAjax() {
+        //1.创建XHR
+        var  xhr=new XMLHttpRequest();
+        //2.状态监听onreadystatechange
+        xhr.onreadystatechange=function () {
+            //readyState==4 表示与服务器通讯结束
+            //status==200 服务器响应状态OK
+            if(xhr.readyState==4&&xhr.status==200){
+                //json串
+                console.log(xhr.responseText)
+                //json对象
+                console.log(JSON.parse(xhr.responseText))
+                var jsonResult=JSON.parse(xhr.responseText)
+                // doXiangYingJieGuo(jsonResult);
+                doXiangYingJieGuoES6(jsonResult)
+            }
+        }
+        //3.打开与服务器链接
+        xhr.open("GET","doGoodsObject",true)
+        //4.发送请求
+        xhr.send(null)//get请求,send内部不传参数
+    }
+     //DOM事件 Post
+     function doPostAjax() {
+         //1.创建XHR
+         var  xhr=new XMLHttpRequest();
+         //2.状态监听onreadystatechange
+         xhr.onreadystatechange=function () {
+             //readyState==4 表示与服务器通讯结束
+             //status==200 服务器响应状态OK
+             if(xhr.readyState==4&&xhr.status==200){
+                 //json串
+                 console.log(xhr.responseText)
+                 //json对象
+                 console.log(JSON.parse(xhr.responseText))
+                 var jsonResult=JSON.parse(xhr.responseText)
+                 // doXiangYingJieGuo(jsonResult);
+                 doXiangYingJieGuoES6(jsonResult)
+             }
+         }
+         //3.打开与服务器链接
+         var params="page:1"
+         xhr.open("POST","doGoodsObject",true)
+         xhr.setRequestHeader("Content-Type",
+             "application/x-www-form-urlencoded");
+         //4.发送请求
+         xhr.send(params)//get请求,send内部不传参数
+     }
+     //处理响应结果
+     function doXiangYingJieGuo(Result) {
+            //1.获取tbody对象并清空原有内容
+            let tBody=document.getElementById("tbodyId")
+            tBody.innerHTML="";
+            //2.更新数据将数据追加到tbody
+            for(let i=0;i<Result.length;i++){
+                //2.1创建tr元素对象
+                let tr=document.createElement("tr")
+                //2.2创建tr中td对象
+                var  td=document.createElement("td")
+                td.innerText=Result[i].id;
+                tr.appendChild(td)
+                var  td=document.createElement("td")
+                td.innerText=Result[i].name;
+                tr.appendChild(td)
+                var  td=document.createElement("td")
+                td.innerText=Result[i].remark;
+                tr.appendChild(td)
+                var  td=document.createElement("td")
+                td.innerText=Result[i].createdTime;
+                tr.appendChild(td)
+                //2.3将tr追加tbody中
+                tBody.append(tr)
+            }
+    }
+     //ES6语法实现 处理结果响应
+     function  doXiangYingJieGuoES6(result){
+        var  trs="";
+        result.forEach((item)=>{
+            trs+="<tr>"+
+            "<td>"+item.id+"</td>"+
+            "<td>"+item.name+"</td>"+
+            "<td>"+item.remark+"</td>"+
+            "<td>"+new Date(item.createdTime).toLocaleTimeString()+"</td>"
+            +"</tr>"
+        })
+        document.getElementById("tbodyId").innerHTML=trs;
+    }
+    // doGetAjax();
+    doPostAjax()
+</script>
+</body>
+</html>

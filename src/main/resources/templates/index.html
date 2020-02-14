@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>你好啊</h1>
+<table>
+<tr>
+    <th>id</th>
+    <th>name</th>
+    <th>remark</th>
+    <th>createdTime</th>
+</tr>
+    <tr th:each="good : ${list}">
+        <td th:text="${good.id}"></td>
+        <td th:text="${good.name}"></td>
+        <td th:text="${good.remark}"></td>
+        <td th:text="${good.createdTime}"></td>
+       <td> <a th:href="@{/goods/deleteById(id=${good.id})}">删除</a></td>
+    </tr>
+</table>
+</body>
+</html>
